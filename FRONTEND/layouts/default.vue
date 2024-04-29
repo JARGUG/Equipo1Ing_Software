@@ -111,6 +111,11 @@ export default {
           icon: 'mdi-car-info',
           title: 'reg_vehiculo',
           to: '/reg_vehiculo'
+        },
+        { // Aqui añadir los iconos para las diferentes pestañas!
+          icon: 'mdi-car-info',
+          title: 'Busqueda',
+          to: '/busqueda'
         }
       ],
       miniVariant: false,
