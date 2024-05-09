@@ -2,9 +2,6 @@
   <v-row>
     <!-- seccion de busqueda -->
     <v-col cols="6">
-      <v-card-title class="title-busqueda">
-        Busqueda
-      </v-card-title>
       <v-text-field>
         <template #prepend>
           <v-icon>mdi-magnify</v-icon>
@@ -31,6 +28,10 @@
           </v-slide-group>
         </v-sheet>
       </v-container>
+      <!-- viajes disponibles -->
+      <v-card-title class="title-busqueda" style="color: #717171;">
+        viajes disponibles
+      </v-card-title>
       <!-- filtros -->
       <v-container>
         <v-row justify="center">
@@ -144,7 +145,7 @@ export default {
   }
   .title-busqueda {
     font-size: 2em;
-    color: black;
+    color: gre#717171;
   }
   .input-con-busqueda {
     display: flex;
@@ -164,8 +165,9 @@ export default {
   }
   .btn-filter{
     background-color: #387ED0;
-    color: black;
+    color: #717171;
     border-radius: 24px;
+    border: 1px solid #717171;
   }
   .car-news {
     background-image: url('./static/img_cinturon.jpg');
