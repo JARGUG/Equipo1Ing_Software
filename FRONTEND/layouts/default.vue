@@ -83,6 +83,11 @@ export default {
           icon: 'mdi-card-account-details-outline',
           title: 'Registrar usuario',
           to: '/principal/reg_usuario/'
+        },
+        {
+          icon: 'mdi-car-info',
+          title: 'Busqueda de viajes',
+          to: '/principal/busqueda_raites/'
         }
       ],
       miniVariant: false,
