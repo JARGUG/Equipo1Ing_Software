@@ -101,14 +101,24 @@
             </v-container>
             <v-container class="raite-cont-title-price">
               <v-row>
-                <v-col cols="8">
-                  <v-card-title class="raite-destino" style="color: white">
-                    Origen -> Destino
+                <v-col cols="4">
+                  <v-card-title class="d-flex justify-center align-center" style="color: white">
+                    Origen
                   </v-card-title>
                 </v-col>
-                <v-col cols="4" class="raite-con-precio">
-                  <v-text-subtitle class="raite-precio">
-                    $Precio
+                <v-col cols="1" class="d-flex align-self-center">
+                  <v-icon color="white" class="d-flex justify-center align-center">
+                    mdi-arrow-right
+                  </v-icon>
+                </v-col>
+                <v-col cols="4">
+                  <v-card-title class="d-flex justify-center align-center align-self-center" style="color: white">
+                    Destino
+                  </v-card-title>
+                </v-col>
+                <v-col cols="3" class="raite-con-precio">
+                  <v-text-subtitle class="raite-precio text-h4">
+                    $0.00
                   </v-text-subtitle>
                 </v-col>
               </v-row>
