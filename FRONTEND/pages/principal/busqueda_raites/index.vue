@@ -79,53 +79,60 @@
           </v-col>
         </v-row>
       </v-container>
-      <!-- viajes disponibles -->
-      <v-container>
-        <v-card class="raite">
-          <v-col>
-            <v-container>
-              <v-col>
-                <v-icon color="white">
-                  mdi-account-group
-                </v-icon>
-                <v-text-subtitle id="num-per-disponibles-raite" style="color: white;">
-                  2
-                </v-text-subtitle>
-                <v-icon color="white">
-                  mdi-calendar-clock
-                </v-icon>
-                <v-text-subtitle id="hora-fecha-raite" style="color: white">
-                  Hoy
-                </v-text-subtitle>
-              </v-col>
-            </v-container>
-            <v-container class="raite-cont-title-price">
-              <v-row>
-                <v-col cols="4">
-                  <v-card-title class="d-flex justify-center align-center" style="color: white">
-                    Origen
-                  </v-card-title>
-                </v-col>
-                <v-col cols="1" class="d-flex align-self-center">
-                  <v-icon color="white" class="d-flex justify-center align-center">
-                    mdi-arrow-right
+      <!-- container de scroll -->
+      <v-container class="cards-scroll">
+        <!-- viajes disponibles -->
+        <v-container v-for="(viaje, index) in viajes" :key="index">
+          <v-card class="raite">
+            <v-col>
+              <v-container>
+                <v-col>
+                  <v-icon color="white">
+                    mdi-account-group
                   </v-icon>
-                </v-col>
-                <v-col cols="4">
-                  <v-card-title class="d-flex justify-center align-center align-self-center" style="color: white">
-                    Destino
-                  </v-card-title>
-                </v-col>
-                <v-col cols="3" class="raite-con-precio">
-                  <v-text-subtitle class="raite-precio text-h4">
-                    $0.00
+                  <v-text-subtitle id="num-per-disponibles-raite" style="color: white;">
+                    {{ viaje.espacio_disponible }}
+                  </v-text-subtitle>
+                  <v-icon color="white">
+                    mdi-calendar-clock
+                  </v-icon>
+                  <v-text-subtitle id="hora-fecha-raite" style="color: white">
+                    {{ viaje.fecha }}
                   </v-text-subtitle>
                 </v-col>
-              </v-row>
-            </v-container>
-          </v-col>
-        </v-card>
+              </v-container>
+              <v-container class="raite-cont-title-price">
+                <v-row>
+                  <v-col cols="4">
+                    <v-card-title class="d-flex justify-center align-center" style="color: white">
+                      {{ viaje.origen }}
+                    </v-card-title>
+                  </v-col>
+                  <v-col cols="1" class="d-flex align-self-center">
+                    <v-icon color="white" class="d-flex justify-center align-center">
+                      mdi-arrow-right
+                    </v-icon>
+                  </v-col>
+                  <v-col cols="4">
+                    <v-card-title class="d-flex justify-center align-center align-self-center" style="color: white">
+                      {{ viaje.destino }}
+                    </v-card-title>
+                  </v-col>
+                  <v-col cols="3" class="raite-con-precio">
+                    <v-text-subtitle class="raite-precio text-h4">
+                      {{ '$' + viaje.costo }}
+                    </v-text-subtitle>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-col>
+          </v-card>
+        </v-container>
       </v-container>
+      <!-- boton para pruebas -->
+      <v-btn @click="imprimirViajes">
+        Obtener raite
+      </v-btn>
     </v-col>
     <!-- seccion de card anuncios =============================== -->
     <v-col cols="6">
@@ -142,8 +149,53 @@
 </template>
 
 <script>
-export default {
 
+import axios from 'axios'
+
+export default {
+  data () {
+    return {
+      viajes: []
+    }
+  },
+  /* Creacion de la pagina */
+  async created () {
+    await this.get_raites()
+  },
+  methods: {
+
+    /* consultas a la base de datos */
+    async get_raites () {
+      try {
+        const response = await axios.get('http://localhost:4000/api/viajes/todos')
+        // eslint-disable-next-line no-console
+        console.log(response.data.body)
+        // aislamos los datos de la respuesta
+        const body = response.data.body
+
+        // iteramos sobre los datos y los agregamos al array de viajes
+        for (let i = 0; i < body.length; i++) {
+          this.viajes.push({ via_id: body[i].via_id, nua_conductor: body[i].via_con_usu_NUA, costo: body[i].via_costo, origen: body[i].via_origen, destino: body[i].via_destino, espacio_disponible: body[i].via_esp_disp, fecha: body[i].via_fecha_hora, descripcion: body[i].via_lugares_pasada })
+          // eslint-disable-next-line no-console
+          // console.log(body[i].via_fecha_hora)
+        }
+        // imprimir el contenido de la lsita de viajes
+        // eslint-disable-next-line no-console
+        // this.imprimirViajes()
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error)
+      }
+    },
+
+    /* Imprimir en cosola todo lo que contiene viajes */
+    imprimirViajes () {
+      this.viajes.forEach((viaje) => {
+        // eslint-disable-next-line no-console
+        console.log(viaje)
+      })
+    }
+  }
 }
 </script>
 
@@ -179,12 +231,16 @@ export default {
     border-radius: 24px;
     border: 1px solid #717171;
   }
+  .cards-scroll {
+    overflow-y: auto;
+    height: 500px;
+  }
   .car-news {
     background-image: url('./static/img_cinturon.jpg');
     background-size: cover; /* Esto hará que la imagen de fondo cubra todo el v-card */
     background-position: center;
     border-radius: 24px;
-    height: 650px;
+    height: 720px;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
